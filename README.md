@@ -1,4 +1,4 @@
-# 💾 Github Init
+# 💾 GitHub Init
 
 [![Static Badge](https://img.shields.io/badge/Bash-white?style=flat&logo=gnubash&logoColor=white&logoSize=auto&labelColor=black)](https://www.gnu.org/software/bash/)
 [![Static Badge](https://img.shields.io/badge/Linux-white?style=flat&logo=linux&logoColor=white&logoSize=auto&labelColor=black)](https://www.linux.org/)
