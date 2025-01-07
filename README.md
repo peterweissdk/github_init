@@ -1,7 +1,7 @@
 # 💾 GitHub Init
 
-[![Static Badge](https://img.shields.io/badge/Bash-white?style=flat&logo=gnubash&logoColor=white&logoSize=auto&labelColor=black)](https://www.gnu.org/software/bash/)
 [![Static Badge](https://img.shields.io/badge/Linux-white?style=flat&logo=linux&logoColor=white&logoSize=auto&labelColor=black)](https://www.linux.org/)
+[![Static Badge](https://img.shields.io/badge/Bash-white?style=flat&logo=gnubash&logoColor=white&logoSize=auto&labelColor=black)](https://www.gnu.org/software/bash/)
 [![Static Badge](https://img.shields.io/badge/Git-white?style=flat&logo=git&logoColor=white&logoSize=auto&labelColor=black)](https://git-scm.com/)
 [![Static Badge](https://img.shields.io/badge/GitHub-white?style=flat&logo=github&logoColor=white&logoSize=auto&labelColor=black)](https://github.com/)
 
@@ -48,10 +48,10 @@ A bash script to automate the process of creating and initializing GitHub reposi
 
 ```bash
 github_init/
+├── .git
 ├── LICENSE
 ├── README.md
-├── github_init.sh
-└── .git
+└── github_init.sh
 ```
 
 ## 🤝 Contributing
