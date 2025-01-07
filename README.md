@@ -48,9 +48,10 @@ A bash script to automate the process of creating and initializing GitHub reposi
 
 ```bash
 github_init/
-├── README.md           # Project documentation
-├── github_init.sh      # Main script file
-└── .git/               # Git repository
+├── LICENSE
+├── README.md
+├── github_init.sh
+└── .git
 ```
 
 ## 🤝 Contributing
