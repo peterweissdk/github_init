@@ -263,9 +263,35 @@ gh repo create "$project_name" $visibility $license_flag
 echo
 read -p "Enter the path where you want to clone the repository: " clone_path
 
-# Check if directory exists
-while [ -d "$clone_path" ]; do
-    echo "Error: Directory '$clone_path' already exists"
+# Validate clone path
+validate_path() {
+    local path="$1"
+    local parent_dir
+    parent_dir=$(dirname "$path")
+    
+    # Check if parent directory exists and is accessible
+    if [ ! -d "$parent_dir" ]; then
+        echo "Error: Invalid path - parent directory '$parent_dir' does not exist"
+        return 1
+    fi
+    
+    # Check if directory already exists
+    if [ -d "$path" ]; then
+        echo "Error: Directory '$path' already exists"
+        return 2
+    fi
+    
+    return 0
+}
+
+while true; do
+    validate_path "$clone_path"
+    path_status=$?
+    
+    if [ $path_status -eq 0 ]; then
+        break
+    fi
+    
     echo
     read -p "Enter (n)ew path or e(x)it: " choice
     case $choice in
