@@ -269,16 +269,22 @@ validate_path() {
     local parent_dir
     parent_dir=$(dirname "$path")
     
+    # Check if path is absolute (starts with /)
+    if [[ "$path" != /* ]]; then
+        echo "Error: Please enter an absolute path (starting with /)"
+        return 1
+    fi
+    
     # Check if parent directory exists and is accessible
     if [ ! -d "$parent_dir" ]; then
         echo "Error: Invalid path - parent directory '$parent_dir' does not exist"
-        return 1
+        return 2
     fi
     
     # Check if directory already exists
     if [ -d "$path" ]; then
         echo "Error: Directory '$path' already exists"
-        return 2
+        return 3
     fi
     
     return 0
