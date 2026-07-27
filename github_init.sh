@@ -181,8 +181,42 @@ echo
 GITHUB_USERNAME=$(gh api user -q .login)
 echo "GitHub username: $GITHUB_USERNAME"
 
+# Get user's organizations
+echo
+echo "Fetching organizations..."
+ORGS=$(gh api user/orgs -q '.[].login' 2>/dev/null)
+
+# Select organization or personal account
+echo
+echo "Where do you want to create the repository?"
+echo "    0 - Personal account ($GITHUB_USERNAME)"
+if [ -n "$ORGS" ]; then
+    ORG_ARRAY=($ORGS)
+    for i in "${!ORG_ARRAY[@]}"; do
+        echo "    $((i+1)) - ${ORG_ARRAY[$i]}"
+    done
+fi
+echo
+
+while true; do
+    read -p "Enter your choice: " org_choice
+    if [[ "$org_choice" == "0" ]]; then
+        REPO_OWNER="$GITHUB_USERNAME"
+        ORG_FLAG=""
+        break
+    elif [ -n "$ORGS" ] && [[ "$org_choice" =~ ^[0-9]+$ ]] && [ "$org_choice" -ge 1 ] && [ "$org_choice" -le "${#ORG_ARRAY[@]}" ]; then
+        REPO_OWNER="${ORG_ARRAY[$((org_choice-1))]}"
+        ORG_FLAG="--org $REPO_OWNER"
+        break
+    else
+        echo "Invalid choice. Please try again."
+        echo
+    fi
+done
+echo "Repository will be created in: $REPO_OWNER"
+
 # Check if project exists on GitHub (works for both public and private repos)
-while gh repo view "$GITHUB_USERNAME/$project_name" &>/dev/null; do
+while gh repo view "$REPO_OWNER/$project_name" &>/dev/null; do
     echo
     echo "Error: Repository '$project_name' already exists on GitHub"
     echo
@@ -257,7 +291,7 @@ fi
 # Create repository
 echo
 echo "Creating GitHub repository..."
-gh repo create "$project_name" $visibility $license_flag
+gh repo create "$project_name" $visibility $license_flag $ORG_FLAG
 
 # Get clone path
 echo
@@ -319,7 +353,7 @@ done
 # Clone repository
 echo
 echo "Cloning repository..."
-gh repo clone "$project_name" "$clone_path"
+gh repo clone "$REPO_OWNER/$project_name" "$clone_path"
 
 # Change to repository directory and show status
 echo
