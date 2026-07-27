@@ -5,11 +5,11 @@
 # Author: peterweissdk
 # Email: peterweissdk@flems.dk
 # Date: 2025-01-07
-# Version: v0.1.4
+# Version: v0.1.5
 # Usage: Run script and follow instructions
 # ----------------------------------------------------------------------------
 
-VERSION="v0.1.4"
+VERSION="v0.1.5"
 
 # Updates script from GitHub
 update() {
@@ -192,11 +192,9 @@ while true; do
     read -p "Enter your choice: " org_choice
     if [[ "$org_choice" == "0" ]]; then
         REPO_OWNER="$GITHUB_USERNAME"
-        ORG_FLAG=""
         break
     elif [ -n "$ORGS" ] && [[ "$org_choice" =~ ^[0-9]+$ ]] && [ "$org_choice" -ge 1 ] && [ "$org_choice" -le "${#ORG_ARRAY[@]}" ]; then
         REPO_OWNER="${ORG_ARRAY[$((org_choice-1))]}"
-        ORG_FLAG="--org $REPO_OWNER"
         break
     else
         echo "Invalid choice. Please try again."
@@ -281,7 +279,7 @@ fi
 # Create repository
 echo
 echo "Creating GitHub repository..."
-gh repo create "$project_name" $visibility $license_flag $ORG_FLAG
+gh repo create "$REPO_OWNER/$project_name" $visibility $license_flag
 
 # Get clone path
 echo
