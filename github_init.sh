@@ -5,76 +5,70 @@
 # Author: peterweissdk
 # Email: peterweissdk@flems.dk
 # Date: 2025-01-07
-# Version: v0.1.3
+# Version: v0.1.4
 # Usage: Run script and follow instructions
 # ----------------------------------------------------------------------------
 
-# Installs script
-install() {
-    read -p "Do you want to install this script? (yes/no): " answer
-    case $answer in
-        [Yy]* )
-            # Set default installation path
-            default_path="/usr/local/bin"
-            
-            # Prompt for installation path
-            read -p "Enter the installation path [$default_path]: " install_path
-            install_path=${install_path:-$default_path}  # Use default if no input
-
-            # Get the filename of the script
-            script_name=$(basename "$0")
-
-            # Copy the script to the specified path
-            echo "Copying $script_name to $install_path..."
-            
-            # Check if the user has write permissions
-            if [ ! -w "$install_path" ]; then
-                echo "You need root privileges to install the script in $install_path."
-                if sudo cp "$0" "$install_path/$script_name"; then
-                    sudo chmod +x "$install_path/$script_name"
-                    echo "Script installed successfully."
-                else
-                    echo "Failed to install script."
-                    exit 1
-                fi
-            else
-                if cp "$0" "$install_path/$script_name"; then
-                    chmod +x "$install_path/$script_name"
-                    echo "Script installed successfully."
-                else
-                    echo "Failed to install script."
-                    exit 1
-                fi
-            fi
-            ;;
-        [Nn]* )
-            echo "Exiting script."
-            exit 0
-            ;;
-        * )
-            echo "Please answer yes or no."
-            install
-            ;;
-    esac
-
-    exit 0
-}
-
-# Updates version of script
-update_version() {
-    # Extract the current version from the script header
-    version_line=$(grep "^# Version:" "$0")
-    current_version=${version_line#*: }  # Remove everything up to and including ": "
+# Updates script from GitHub
+update() {
+    local current_version="v0.1.4"
+    local repo_url="https://raw.githubusercontent.com/peterweissdk/github_init/main/github_init.sh"
     
     echo "Current version: $current_version"
+    echo "Checking for updates..."
     
-    # Prompt the user for a new version
-    read -p "Enter new version (current: $current_version): " new_version
+    # Get remote version
+    remote_version=$(curl -fsSL "$repo_url" | grep "^# Version:" | cut -d' ' -f3)
     
-    # Update the version in the script
-    sed -i "s/^# Version: .*/# Version: $new_version/" "$0"
+    if [ -z "$remote_version" ]; then
+        echo "Error: Could not fetch remote version"
+        exit 1
+    fi
     
-    echo "Version updated to: $new_version"
+    echo "Remote version: $remote_version"
+    
+    if [ "$current_version" = "$remote_version" ]; then
+        echo "You are already running the latest version."
+        exit 0
+    fi
+    
+    echo "Update available: $current_version -> $remote_version"
+    read -p "Do you want to update? (y/n): " answer
+    
+    if [[ ! "$answer" =~ ^[Yy]$ ]]; then
+        echo "Update cancelled."
+        exit 0
+    fi
+    
+    # Download and replace script
+    tmp_file=$(mktemp)
+    trap "rm -f $tmp_file" EXIT
+    
+    if ! curl -fsSL "$repo_url" -o "$tmp_file"; then
+        echo "Error: Failed to download update"
+        exit 1
+    fi
+    
+    # Get the path of the current script
+    script_path=$(realpath "$0")
+    
+    # Check if we need sudo
+    if [ ! -w "$script_path" ]; then
+        echo "You need root privileges to update the script."
+        if sudo cp "$tmp_file" "$script_path" && sudo chmod +x "$script_path"; then
+            echo "Script updated successfully to $remote_version"
+        else
+            echo "Error: Failed to update script"
+            exit 1
+        fi
+    else
+        if cp "$tmp_file" "$script_path" && chmod +x "$script_path"; then
+            echo "Script updated successfully to $remote_version"
+        else
+            echo "Error: Failed to update script"
+            exit 1
+        fi
+    fi
 
     exit 0
 }
@@ -92,8 +86,8 @@ version() {
 
 # Prints out help
 help() {
-    echo "Run script to setup a new shell script file."
-    echo "Usage: $0 [-i | --install] [-u | --update-version] [-v | --version] [-h | --help]"
+    echo "Run script to setup a new GitHub repository."
+    echo "Usage: $0 [-u | --update] [-v | --version] [-h | --help]"
 
     exit 0
 }
@@ -101,8 +95,7 @@ help() {
 # Check for flags
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        -i|--install) install; shift ;;
-        -u|--update-version) update_version; shift ;;
+        -u|--update) update; shift ;;
         -v|--version) version; shift ;;
         -h|--help) help; shift ;;
         *) echo "Unknown option: $1"; help; exit 1 ;;
