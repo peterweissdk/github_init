@@ -9,12 +9,13 @@
 # Usage: Run script and follow instructions
 # ----------------------------------------------------------------------------
 
+VERSION="v0.1.4"
+
 # Updates script from GitHub
 update() {
-    local current_version="v0.1.4"
     local repo_url="https://raw.githubusercontent.com/peterweissdk/github_init/main/github_init.sh"
     
-    echo "Current version: $current_version"
+    echo "Current version: $VERSION"
     echo "Checking for updates..."
     
     # Get remote version
@@ -27,12 +28,12 @@ update() {
     
     echo "Remote version: $remote_version"
     
-    if [ "$current_version" = "$remote_version" ]; then
+    if [ "$VERSION" = "$remote_version" ]; then
         echo "You are already running the latest version."
         exit 0
     fi
     
-    echo "Update available: $current_version -> $remote_version"
+    echo "Update available: $VERSION -> $remote_version"
     read -p "Do you want to update? (y/n): " answer
     
     if [[ ! "$answer" =~ ^[Yy]$ ]]; then
@@ -75,11 +76,7 @@ update() {
 
 # Prints out version
 version() {
-    # Extract the current version from the script header
-    version_line=$(grep "^# Version:" "$0")
-    current_version=${version_line#*: }  # Remove everything up to and including ": "
-    
-    echo "$0: $current_version"
+    echo "$0: $VERSION"
 
     exit 0
 }
