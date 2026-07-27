@@ -12,9 +12,8 @@ DEFAULT_PATH="/usr/local/bin"
 
 echo "Installing $SCRIPT_NAME..."
 
-# Prompt for installation path
-read -p "Enter the installation path [$DEFAULT_PATH]: " install_path
-install_path=${install_path:-$DEFAULT_PATH}
+# Use default path when piped (non-interactive)
+install_path="$DEFAULT_PATH"
 
 # Create temp file
 tmp_file=$(mktemp)
