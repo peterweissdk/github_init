@@ -10,14 +10,23 @@ A bash script to automate the process of creating and initializing GitHub reposi
 
 ## ✨ Features
 
-- Create new GitHub repositories
+- Create new GitHub repositories (personal or organization)
 - Initialize local Git repositories
 - Set up SSH keys for GitHub authentication
-- Configure Git user information
-- Link local and remote repositories
-- Installation option for system-wide availability
+- Configure repository visibility (public/private)
+- Add license to repository
+- Auto-update from GitHub
 
 ## 🚀 Quick Start
+
+### Installation
+
+Install the script using curl:
+```bash
+curl -fsSL https://raw.githubusercontent.com/peterweissdk/github_init/main/install.sh | bash
+```
+
+### Manual Installation
 
 1. Clone this repository:
    ```bash
@@ -34,14 +43,8 @@ A bash script to automate the process of creating and initializing GitHub reposi
    ./github_init.sh
    ```
 
-4. Optional: Install the script system-wide:
-   ```bash
-   ./github_init.sh --install
-   ```
-
 ### Usage Options
-- `-i, --install`: Install the script system-wide
-- `-u, --update-version`: Update the script version
+- `-u, --update`: Check for updates and install new version
 - `-v, --version`: Display current version
 - `-h, --help`: Show help message
 
@@ -52,6 +55,7 @@ github_init/
 ├── .git
 ├── LICENSE
 ├── README.md
+├── install.sh
 └── github_init.sh
 ```
 
