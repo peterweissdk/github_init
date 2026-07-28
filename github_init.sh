@@ -5,15 +5,15 @@
 # Author: peterweissdk
 # Email: peterweissdk@flems.dk
 # Date: 2025-01-07
-# Version: v0.1.6
+# Version: v0.1.7
 # Usage: Run script and follow instructions
 # ----------------------------------------------------------------------------
 
-VERSION="v0.1.6"
+VERSION="v0.1.7"
 
 # Updates script from GitHub
 update() {
-    local repo_url="https://raw.githubusercontent.com/peterweissdk/github_init/main/github_init.sh"
+    local repo_url="https://raw.githubusercontent.com/peterweissdk-priv/github_init/main/github_init.sh"
     
     echo "Current version: $VERSION"
     echo "Checking for updates..."
