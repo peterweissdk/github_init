@@ -28,8 +28,16 @@ fi
 
 # Install the script
 echo "Installing to $install_path/$SCRIPT_NAME..."
-if [ ! -w "$install_path" ]; then
-    echo "You need root privileges to install the script in $install_path."
+if [ -w "$install_path" ]; then
+    # User has write access
+    if cp "$tmp_file" "$install_path/$SCRIPT_NAME" && chmod +x "$install_path/$SCRIPT_NAME"; then
+        echo "Script installed successfully to $install_path/$SCRIPT_NAME"
+    else
+        echo "Error: Failed to install script"
+        exit 1
+    fi
+elif sudo -n true 2>/dev/null; then
+    # User has passwordless sudo
     if sudo cp "$tmp_file" "$install_path/$SCRIPT_NAME" && sudo chmod +x "$install_path/$SCRIPT_NAME"; then
         echo "Script installed successfully to $install_path/$SCRIPT_NAME"
     else
@@ -37,7 +45,9 @@ if [ ! -w "$install_path" ]; then
         exit 1
     fi
 else
-    if cp "$tmp_file" "$install_path/$SCRIPT_NAME" && chmod +x "$install_path/$SCRIPT_NAME"; then
+    # User needs to enter password for sudo
+    echo "You need root privileges to install the script in $install_path."
+    if sudo cp "$tmp_file" "$install_path/$SCRIPT_NAME" && sudo chmod +x "$install_path/$SCRIPT_NAME"; then
         echo "Script installed successfully to $install_path/$SCRIPT_NAME"
     else
         echo "Error: Failed to install script"
