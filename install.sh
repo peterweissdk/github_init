@@ -3,11 +3,11 @@
 # Script Name: install.sh
 # Description: Install github_init.sh script
 # Author: peterweissdk
-# Usage: curl -fsSL https://raw.githubusercontent.com/peterweissdk/github_init/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/peterweissdk-priv/github_init/main/install.sh | bash
 # ----------------------------------------------------------------------------
 
 SCRIPT_NAME="github_init.sh"
-REPO_URL="https://raw.githubusercontent.com/peterweissdk/github_init/main/github_init.sh"
+REPO_URL="https://raw.githubusercontent.com/peterweissdk-priv/github_init/main/github_init.sh"
 DEFAULT_PATH="/usr/local/bin"
 
 echo "Installing $SCRIPT_NAME..."

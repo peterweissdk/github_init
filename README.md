@@ -23,14 +23,14 @@ A bash script to automate the process of creating and initializing GitHub reposi
 
 Install the script using curl:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/peterweissdk/github_init/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/peterweissdk-priv/github_init/main/install.sh | bash
 ```
 
 ### Manual Installation
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/peterweissdk/github_init.git
+   git clone https://github.com/peterweissdk-priv/github_init.git
    ```
 
 2. Make the script executable:
