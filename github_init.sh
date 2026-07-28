@@ -5,11 +5,11 @@
 # Author: peterweissdk
 # Email: peterweissdk@flems.dk
 # Date: 2025-01-07
-# Version: v0.1.7
+# Version: v0.1.8
 # Usage: Run script and follow instructions
 # ----------------------------------------------------------------------------
 
-VERSION="v0.1.7"
+VERSION="v0.1.8"
 
 # Updates script from GitHub
 update() {

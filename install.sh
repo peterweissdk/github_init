@@ -6,7 +6,7 @@
 # Usage: curl -fsSL https://raw.githubusercontent.com/peterweissdk-priv/github_init/main/install.sh | bash
 # ----------------------------------------------------------------------------
 
-SCRIPT_NAME="github_init.sh"
+SCRIPT_NAME="github_init"
 REPO_URL="https://raw.githubusercontent.com/peterweissdk-priv/github_init/main/github_init.sh"
 DEFAULT_PATH="/usr/local/bin"
 
@@ -55,4 +55,4 @@ else
     fi
 fi
 
-echo "Run '$SCRIPT_NAME' to create a new GitHub repository."
+echo "Run 'github_init' to create a new GitHub repository."
